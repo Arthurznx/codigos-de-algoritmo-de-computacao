@@ -52,3 +52,41 @@ printf("seu qrcode e %d\n",qr_code);
 printf("seu recibo e %f",valor_compra);
 return 0;
 }
+
+#include <stdio.h>
+#include <windows.h>
+#include <stdlib.h>
+#include <locale.h>
+
+int main () {
+setlocale(LC_ALL, "Portuguese");
+
+printf("sistema log...\n");
+sleep(2);
+system("cls");
+sleep(3);
+printf("BEM VINDO AO SISTEMA LOG\n");
+
+
+ char nome[50];
+ int qr_code;
+ float valor_compra;
+printf("qual e o nome da ferramenta:");
+scanf("%s",nome);
+
+printf("qual e o seu qr code:");
+scanf("%d", &qr_code);
+
+printf("digite e o valor da compra:");
+scanf("%f",&valor_compra);
+
+if (valor_compra > 0){
+        printf("O nome da ferramenta é %s: \n", nome);
+        printf("seu qrcode é: %d\n", qr_code);
+        printf("seu recibo é: %.2f", valor_compra);
+} else {
+    printf("Erro, valor inválido!");
+}
+return 0;
+}
+
