@@ -13,9 +13,16 @@ int main()
     int qr_code;
     float valor_compra;
     int tem_garantia;
+    int i;
 
     printf("Iniciando o sistema...\n");
-    Sleep(5000);
+    printf("Progresso: [");
+    for (i = 1; i <= 20; i++){
+        printf("#");
+        Sleep(100);
+    }
+    printf("] 100%%\n\n");
+    Sleep(500);
     system("cls");
 
     do {
