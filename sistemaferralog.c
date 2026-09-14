@@ -86,6 +86,29 @@ int main()
                 printf("Saindo...\n");
                 break;
 
+            case 5:
+                printf("----- Cadastro em Lote -----\n");
+                int qntd_lote = 0;
+                int i;
+
+                printf("Quantas ferramentas deseja adicionar neste Lote?\n");
+                scanf("%d", &qntd_lote);
+
+                for(i = 1; i <= qntd_lote; i++) {
+                    printf("\n Ferramenta %d de %d \n", i, qntd_lote);
+
+                    printf("Nome da ferramenta: \n");
+                    scanf("%s", nome);
+
+                    printf("Valor de compra: \n");
+                    scanf("%f", &valor_compra);
+                    
+                    }
+                    printf("Registro OK: '%s' cadastrada por R$ %.2f.\n", nome, valor_compra);
+
+                    printf("\n Processamento do lote finalizado. Retornando ao menu... \n");
+                    break;
+
             default:
                 printf("Opcao invalida!\n");
                 break;
@@ -94,3 +117,4 @@ int main()
 
     return 0;
 }
+
