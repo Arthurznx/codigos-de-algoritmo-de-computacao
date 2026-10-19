@@ -3,6 +3,56 @@
 #include <windows.h>
 #include <locale.h>
 
+#define MAQUINAS 3
+#define TURNOS 3
+
+/* Painel de producao: matriz 3x3 (linhas = maquinas, colunas = turnos) */
+void painel_producao(void)
+{
+    // Matriz: 3 Linhas (Maquinas) e 3 Colunas (Turnos)
+    int producao[3][3] = {
+        {10, 15, 20},  // Maquina 0 (Manha, Tarde, Noite)
+        {5,  10, 5},   // Maquina 1 (Manha, Tarde, Noite)
+        {20, 20, 30}   // Maquina 2 (Manha, Tarde, Noite)
+    };
+    int total_pecas = 0;
+
+    const char *turnos[TURNOS] = {"Manha", "Tarde", "Noite"};
+
+    int linha, coluna;
+    int total_maquina;
+
+    printf("\n======================================================\n");
+    printf("        PAINEL DE PRODUCAO - FERRALOG (3x3)\n");
+    printf("======================================================\n\n");
+
+    printf("%-12s", "");
+    for (coluna = 0; coluna < TURNOS; coluna++) {
+        printf("%-10s", turnos[coluna]);
+    }
+    printf("%-10s\n", "Subtotal");
+    printf("------------------------------------------------------\n");
+
+    /* FOR DUPLO: o laco de fora percorre as maquinas (linhas),
+       o de dentro percorre os turnos (colunas) */
+    for (linha = 0; linha < MAQUINAS; linha++) {
+        total_maquina = 0;
+        printf("Maquina %-4d", linha);
+
+        for (coluna = 0; coluna < TURNOS; coluna++) {
+            printf("%-10d", producao[linha][coluna]);
+            total_maquina += producao[linha][coluna];
+            total_pecas += producao[linha][coluna];
+        }
+
+        printf("%-10d\n", total_maquina);
+    }
+
+    printf("------------------------------------------------------\n");
+    printf("TOTAL GERAL DA FABRICA: %d pecas\n", total_pecas);
+    printf("======================================================\n");
+}
+
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
@@ -34,7 +84,9 @@ int main()
         printf("\n[1] Cadastrar nova ferramenta");
         printf("\n[2] Consultar ferramenta por setor");
         printf("\n[3] Verificar status da garantia");
-        printf("\n[4] Sair do sistema\n");
+        printf("\n[4] Sair do sistema");
+        printf("\n[5] Cadastro em lote");
+        printf("\n[6] Painel de producao (Matriz 3x3)\n");
         printf("======================================================\n");
         printf("Digite a opcao desejada: ");
         scanf("%d", &opcao_menu);
@@ -86,15 +138,14 @@ int main()
                 printf("Saindo...\n");
                 break;
 
-            case 5:
-                printf("----- Cadastro em Lote -----\n");
+            case 5: {
                 int qntd_lote = 0;
-                int i;
 
+                printf("----- Cadastro em Lote -----\n");
                 printf("Quantas ferramentas deseja adicionar neste Lote?\n");
                 scanf("%d", &qntd_lote);
 
-                for(i = 1; i <= qntd_lote; i++) {
+                for (i = 1; i <= qntd_lote; i++) {
                     printf("\n Ferramenta %d de %d \n", i, qntd_lote);
 
                     printf("Nome da ferramenta: \n");
@@ -102,12 +153,22 @@ int main()
 
                     printf("Valor de compra: \n");
                     scanf("%f", &valor_compra);
-                    
-                    }
-                    printf("Registro OK: '%s' cadastrada por R$ %.2f.\n", nome, valor_compra);
 
-                    printf("\n Processamento do lote finalizado. Retornando ao menu... \n");
-                    break;
+                    /* Registro dentro do laco: cada ferramenta e confirmada */
+                    printf("Registro OK: '%s' cadastrada por R$ %.2f.\n", nome, valor_compra);
+                }
+
+                printf("\n Processamento do lote finalizado. Retornando ao menu... \n");
+                break;
+            }
+
+            case 6:
+                painel_producao();
+                printf("\nPressione ENTER para voltar ao menu...");
+                getchar();   /* consome o ENTER pendente do scanf */
+                getchar();   /* espera o ENTER do usuario */
+                system("cls");
+                break;
 
             default:
                 printf("Opcao invalida!\n");
@@ -117,4 +178,3 @@ int main()
 
     return 0;
 }
-
