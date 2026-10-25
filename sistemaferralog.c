@@ -53,6 +53,47 @@ void painel_producao(void)
     printf("======================================================\n");
 }
 
+/* Tela inicial: mensagem de abertura + animacao de loading */
+void exibir_abertura(void)
+{
+    int i;
+
+    printf("Iniciando o sistema...\n");
+    printf("Progresso: [");
+    for (i = 1; i <= 20; i++) {
+        printf("#");
+        Sleep(100);
+    }
+    printf("] 100%%\n\n");
+    Sleep(500);
+    system("cls");
+}
+
+/* Mostra o menu, le a opcao digitada e devolve o numero via return */
+int exibir_menu(void)
+{
+    int opcao;
+
+    printf("======================================================\n");
+    printf("         SISTEMA FERRALOG - INVENTARIO\n");
+    printf("======================================================\n");
+
+    printf("\nBem-vindo ao controle logistico de ferramentas.\n");
+
+    printf("\nSelecione uma opcao no menu abaixo:\n");
+    printf("\n[1] Cadastrar nova ferramenta");
+    printf("\n[2] Consultar ferramenta por setor");
+    printf("\n[3] Verificar status da garantia");
+    printf("\n[4] Sair do sistema");
+    printf("\n[5] Cadastro em lote");
+    printf("\n[6] Painel de producao (Matriz 3x3)\n");
+    printf("======================================================\n");
+    printf("Digite a opcao desejada: ");
+    scanf("%d", &opcao);
+
+    return opcao;
+}
+
 int main()
 {
     setlocale(LC_ALL, "Portuguese");
@@ -65,31 +106,10 @@ int main()
     int tem_garantia;
     int i;
 
-    printf("Iniciando o sistema...\n");
-    printf("Progresso: [");
-    for (i = 1; i <= 20; i++){
-        printf("#");
-        Sleep(100);
-    }
-    printf("] 100%%\n\n");
-    Sleep(500);
-    system("cls");
+    exibir_abertura();
 
     do {
-        printf("======================================================\n         SISTEMA FERRALOG - INVENTARIO      \n======================================================\n");
-
-        printf("\nBem-vindo ao controle logistico de ferramentas.\n");
-
-        printf("\nSelecione uma opcao no menu abaixo:\n");
-        printf("\n[1] Cadastrar nova ferramenta");
-        printf("\n[2] Consultar ferramenta por setor");
-        printf("\n[3] Verificar status da garantia");
-        printf("\n[4] Sair do sistema");
-        printf("\n[5] Cadastro em lote");
-        printf("\n[6] Painel de producao (Matriz 3x3)\n");
-        printf("======================================================\n");
-        printf("Digite a opcao desejada: ");
-        scanf("%d", &opcao_menu);
+        opcao_menu = exibir_menu();
 
         switch (opcao_menu) {
             case 1:
