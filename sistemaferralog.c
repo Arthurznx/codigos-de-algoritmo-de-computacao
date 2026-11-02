@@ -1,10 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <windows.h>
 #include <locale.h>
 
 #define MAQUINAS 3
 #define TURNOS 3
+
+/* Struct da atividade "O Inspetor de Qualidade" */
+struct Ferramenta {
+    int id;
+    char nome[50];
+    float peso_gramas;
+    int aprovado;   /* 0 = nao auditada, 1 = aprovada, 2 = reprovada */
+};
+
+/* Recebe uma COPIA da struct (sem ponteiros), altera a copia e devolve via return */
+struct Ferramenta auditar_peso(struct Ferramenta f)
+{
+    if (f.peso_gramas >= 490.0f && f.peso_gramas <= 510.0f) {
+        f.aprovado = 1;
+    } else {
+        f.aprovado = 2;
+    }
+    return f;
+}
 
 /* Painel de producao: matriz 3x3 (linhas = maquinas, colunas = turnos) */
 void painel_producao(void)
@@ -86,7 +106,8 @@ int exibir_menu(void)
     printf("\n[3] Verificar status da garantia");
     printf("\n[4] Sair do sistema");
     printf("\n[5] Cadastro em lote");
-    printf("\n[6] Painel de producao (Matriz 3x3)\n");
+    printf("\n[6] Painel de producao (Matriz 3x3)");
+    printf("\n[7] Inspetor de Qualidade (Martelo M1)\n");
     printf("======================================================\n");
     printf("Digite a opcao desejada: ");
     scanf("%d", &opcao);
@@ -189,6 +210,39 @@ int main()
                 getchar();   /* espera o ENTER do usuario */
                 system("cls");
                 break;
+
+            case 7: {
+                /* FERRALOG - O Inspetor de Qualidade */
+                struct Ferramenta martelo;
+
+                martelo.id = 10;
+                strcpy(martelo.nome, "Martelo M1");
+                martelo.peso_gramas = 0.0f;
+                martelo.aprovado = 0;   /* comeca em 0 (nao auditado) */
+
+                printf("\n----- Inspetor de Qualidade -----\n");
+                printf("Ferramenta: %s (id: %d)\n", martelo.nome, martelo.id);
+                printf("Digite o peso aferido na balanca (em gramas): ");
+                scanf("%f", &martelo.peso_gramas);
+
+                /* O Pulo do Gato: a funcao devolve a copia alterada
+                   e ela sobrescreve a variavel original */
+                martelo = auditar_peso(martelo);
+
+                if (martelo.aprovado == 1) {
+                    printf("\nVeredito: APROVADO (%.1fg dentro da margem de 490g a 510g)\n",
+                           martelo.peso_gramas);
+                } else {
+                    printf("\nVeredito: REPROVADO (%.1fg fora da margem de 490g a 510g)\n",
+                           martelo.peso_gramas);
+                }
+
+                printf("\nPressione ENTER para voltar ao menu...");
+                getchar();   /* consome o ENTER pendente do scanf */
+                getchar();   /* espera o ENTER do usuario */
+                system("cls");
+                break;
+            }
 
             default:
                 printf("Opcao invalida!\n");
