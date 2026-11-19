@@ -15,6 +15,13 @@ struct Ferramenta {
     int aprovado;   /* 0 = nao auditada, 1 = aprovada, 2 = reprovada */
 };
 
+/* Struct do desafio "Backup da Ferramenta" */
+struct FerramentaBackup {
+    int codigo;
+    char nome[30];
+    float preco;
+};
+
 /* Recebe uma COPIA da struct (sem ponteiros), altera a copia e devolve via return */
 struct Ferramenta auditar_peso(struct Ferramenta f)
 {
@@ -107,7 +114,8 @@ int exibir_menu(void)
     printf("\n[4] Sair do sistema");
     printf("\n[5] Cadastro em lote");
     printf("\n[6] Painel de producao (Matriz 3x3)");
-    printf("\n[7] Inspetor de Qualidade (Martelo M1)\n");
+    printf("\n[7] Inspetor de Qualidade (Martelo M1)");
+    printf("\n[8] Backup da ferramenta (arquivo .txt)\n");
     printf("======================================================\n");
     printf("Digite a opcao desejada: ");
     scanf("%d", &opcao);
@@ -236,6 +244,42 @@ int main()
                     printf("\nVeredito: REPROVADO (%.1fg fora da margem de 490g a 510g)\n",
                            martelo.peso_gramas);
                 }
+
+                printf("\nPressione ENTER para voltar ao menu...");
+                getchar();   /* consome o ENTER pendente do scanf */
+                getchar();   /* espera o ENTER do usuario */
+                system("cls");
+                break;
+            }
+
+            case 8: {
+                /* FERRALOG - Backup da Ferramenta */
+                struct FerramentaBackup item;
+                FILE *arquivo;
+
+                printf("\n--- FERRALOG: BACKUP DE PRODUTO ---\n");
+                printf("Codigo: ");
+                scanf("%d", &item.codigo);
+                printf("Nome (sem espacos): ");
+                scanf("%s", item.nome);
+                printf("Preco: R$ ");
+                scanf("%f", &item.preco);
+
+                /* Processo de gravacao: modo "w" cria/sobrescreve o arquivo */
+                arquivo = fopen("backup_ferramenta.txt", "w");
+                if (arquivo == NULL) {
+                    printf("\n[ERRO] Nao foi possivel criar o arquivo!\n");
+                    break;
+                }
+
+                /* Um dado por linha */
+                fprintf(arquivo, "%d\n", item.codigo);
+                fprintf(arquivo, "%s\n", item.nome);
+                fprintf(arquivo, "%.2f\n", item.preco);
+
+                fclose(arquivo);   /* Fechando a porta! */
+
+                printf("\n> [SISTEMA] Backup gravado no disco com sucesso!\n");
 
                 printf("\nPressione ENTER para voltar ao menu...");
                 getchar();   /* consome o ENTER pendente do scanf */
